@@ -1,8 +1,12 @@
 import { Router } from "express";
-import user from "./user";
+import auth from "../../controllers/auth";
+import account from "./accounts";
+import product from "./products";
 
 const router = Router();
 
-router.use("/user", user);
+router.use("/product", product);
+router.use("/account", account);
+router.use("/auth", auth);
 
 export default router;
