@@ -6,6 +6,7 @@ import {
   signup,
   updateAccount,
 } from "../../controllers/accounts";
+import { customerAuthMiddleware } from "../../utility/middleware";
 
 const router = Router();
 
@@ -16,7 +17,7 @@ router.post("/signup", signup);
 router.get("/:id", getAccount);
 
 // get account
-router.get("/", getAllAccount);
+router.get("/", customerAuthMiddleware, getAllAccount);
 
 // update account
 router.put("/:id", updateAccount);

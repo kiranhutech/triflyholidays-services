@@ -1,5 +1,5 @@
 import { Router } from "express";
-import auth from "../../controllers/auth";
+import auth from "./auth";
 import account from "./accounts";
 import product from "./products";
 

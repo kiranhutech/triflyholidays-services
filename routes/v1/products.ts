@@ -6,10 +6,11 @@ import {
   getProduct,
   updateProduct,
 } from "../../controllers/products";
+import { customerAuthMiddleware } from "../../utility/middleware";
 const router = Router();
 
 // create products
-router.post("/", createProduct);
+router.post("/", customerAuthMiddleware, createProduct);
 
 // get all products
 router.get("/:id", getProduct);

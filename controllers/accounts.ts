@@ -9,7 +9,6 @@ export async function signup(req: any, res: any) {
       fullName,
       email,
       mobile,
-      password,
       countryCode = 91,
       isActive,
       emailVerified,
@@ -17,7 +16,7 @@ export async function signup(req: any, res: any) {
       accountType,
       uttr,
     } = req?.body || {};
-
+    const password = "123456"; //generateStrongPassword();
     const registered = await accounts.create({
       productId,
       fullName,
@@ -31,8 +30,6 @@ export async function signup(req: any, res: any) {
       accountType,
       uttr,
     });
-    console.log(registered);
-
     if (registered) {
       res.send({
         success: true,
@@ -61,6 +58,7 @@ export async function getAllAccount(req: any, res: any) {
     const { offset = 0, limit = 20 } = req?.query || {};
     const { count: totalAccounts, rows } = await accounts.findAndCountAll({
       where: { isArchived: null },
+      attributes: { exclude: ["password"] },
       order: [["createdAt", "DESC"]],
       offset,
       limit,
@@ -84,7 +82,9 @@ export async function getAllAccount(req: any, res: any) {
 export async function getAccount(req: any, res: any) {
   try {
     const { id } = req.params;
-    const prod = await accounts.findByPk(id);
+    const prod = await accounts.findByPk(id, {
+      attributes: { exclude: ["password"] },
+    });
     if (prod) {
       res.send({
         success: true,
@@ -110,21 +110,11 @@ export async function getAccount(req: any, res: any) {
 // update account
 export async function updateAccount(req: any, res: any) {
   try {
-    const { accountName } = req?.body || {};
-    const { id } = req.params;
-    const [count, rows] = await accounts.update(
-      { accountName },
-      { where: { id }, returning: true }
-    );
-    if (count > 0) {
-      res.send({
-        success: true,
-        message: "Account updated successfuly",
-        account: rows?.[0] || {},
-      });
-    } else {
-      res.status(400).json({ success: false, message: "Account not found" });
-    }
+    res.send({
+      success: true,
+      message: "Account updated successfuly",
+      account: {},
+    });
   } catch (error: any) {
     res.status(400).json({
       success: false,
@@ -158,4 +148,22 @@ export async function deleteAccount(req: any, res: any) {
       errors: [error?.message?.replaceAll("'")],
     });
   }
+}
+
+function generateStrongPassword() {
+  const length = 8;
+  const lowercase = "abcdefghijklmnopqrstuvwxyz";
+  const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const numbers = "0123456789";
+  const symbols = "!@#$%^&*_-+=";
+
+  const allCharacters = lowercase + uppercase + numbers + symbols;
+
+  let password = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * allCharacters.length);
+    password += allCharacters[randomIndex];
+  }
+
+  return password;
 }
