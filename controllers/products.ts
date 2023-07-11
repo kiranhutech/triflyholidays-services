@@ -106,7 +106,7 @@ export async function updateProduct(req: any, res: any) {
       res.status(400).json({ success: false, message: "Product not found" });
     }
   } catch (error: any) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: "Internal Server Error",
       errors: [error?.message?.replaceAll("'")],
@@ -132,7 +132,7 @@ export async function deleteProduct(req: any, res: any) {
       res.status(400).json({ success: false, message: "Product not found" });
     }
   } catch (error: any) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: "Internal Server Error",
       errors: [error?.message?.replaceAll("'")],

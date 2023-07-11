@@ -17,7 +17,7 @@ router.post("/signup", signup);
 router.get("/:id", getAccount);
 
 // get account
-router.get("/", customerAuthMiddleware, getAllAccount);
+router.get("/", getAllAccount);
 
 // update account
 router.put("/:id", updateAccount);

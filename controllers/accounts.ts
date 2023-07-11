@@ -116,7 +116,7 @@ export async function updateAccount(req: any, res: any) {
       account: {},
     });
   } catch (error: any) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: "Internal Server Error",
       errors: [error?.message?.replaceAll("'")],
@@ -142,7 +142,7 @@ export async function deleteAccount(req: any, res: any) {
       res.status(400).json({ success: false, message: "Account not found" });
     }
   } catch (error: any) {
-    res.status(400).json({
+    res.status(500).json({
       success: false,
       message: "Internal Server Error",
       errors: [error?.message?.replaceAll("'")],

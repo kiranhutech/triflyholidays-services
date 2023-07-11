@@ -10,6 +10,9 @@ module.exports = {
           "uuid_in((md5((random())::text))::cstring)"
         ),
       },
+      accountId: {
+        type: Sequelize.UUID,
+      },
       accNo: {
         type: Sequelize.STRING,
       },
