@@ -61,11 +61,6 @@ module.exports = (sequelize, DataTypes) => {
     account.customerId = `MYB${yrmonth}${extrazero}${total + 1}`;
     const hashedPassword = await bcrypt.hash(account.password, 10);
     account.password = hashedPassword;
-
-    // Verify the password during authentication
-    account.prototype.authenticate = async function (password) {
-      return await bcrypt.compare(password, this.passwordHash);
-    };
   });
   return accounts;
 };

@@ -36,12 +36,14 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "@types/js-cookie": "^3.0.3",
     "@types/mongoose": "^5.11.97",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.1.0",
     "morgan": "^1.10.0",
