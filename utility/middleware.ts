@@ -6,6 +6,7 @@ export function customerAuthMiddleware(req: any, res: any, next: any) {
     const token = authorization?.split(" ")[1];
     const validToken = verifyToken(token);
     if (validToken) {
+      req["locals"] = { customer: validToken };
       next();
     }
   } catch (error) {

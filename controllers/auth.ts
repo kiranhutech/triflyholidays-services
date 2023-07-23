@@ -33,7 +33,11 @@ export async function signInAccount(req: any, res: any) {
           "1d",
           "2d"
         );
-        return res.send({ accessToken, refreshToken }); // Passwords match, authentication successful
+        return res.send({
+          accessToken,
+          refreshToken,
+          account: { userId, customerId, fullName, productId, accountType },
+        }); // Passwords match, authentication successful
       } else {
         return res.send(401); // Passwords don't match, authentication failed
       }

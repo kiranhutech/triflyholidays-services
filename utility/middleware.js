@@ -12,6 +12,7 @@ function customerAuthMiddleware(req, res, next) {
         const token = authorization === null || authorization === void 0 ? void 0 : authorization.split(" ")[1];
         const validToken = verifyToken(token);
         if (validToken) {
+            req["locals"] = { customer: validToken };
             next();
         }
     }

@@ -25,9 +25,7 @@ function signInAccount(req, res) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            console.log("1111122ss");
             const { customerId, password } = req.body;
-            console.log("1111122ss");
             const acc = yield accounts.findOne({
                 where: { customerId },
             });
@@ -41,16 +39,18 @@ function signInAccount(req, res) {
                 if (passwordMatch) {
                     const { id: userId, customerId, fullName, productId, accountType, } = acc;
                     const { token: accessToken, refreshToken } = generateTokens({ id: userId, customerId, fullName, productId, accountType }, ENV.MYB_SECRET, "1d", "2d");
-                    return res.send({ accessToken, refreshToken }); // Passwords match, authentication successful
+                    return res.send({
+                        accessToken,
+                        refreshToken,
+                        account: { userId, customerId, fullName, productId, accountType },
+                    }); // Passwords match, authentication successful
                 }
                 else {
-                    console.log("11111229900ss", acc);
                     return res.send(401); // Passwords don't match, authentication failed
                 }
             }
         }
         catch (error) {
-            console.log("1111122ssq");
             return res.status(500).json({
                 success: false,
                 message: "Internal Server Error",
