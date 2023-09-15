@@ -7,7 +7,9 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {}
+    static associate(models) {
+      // define association here
+    }
   }
   products.init(
     {
@@ -16,21 +18,16 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
       },
-      productName: DataTypes.STRING,
       productCode: DataTypes.STRING,
-      isArchived: DataTypes.TIME,
+      productName: DataTypes.STRING,
+      pointsPerChild: DataTypes.DOUBLE,
+      isActive: DataTypes.BOOLEAN,
+      isArchived: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: "products",
     }
   );
-
-  products.beforeCreate(async (product, options) => {
-    const total = await products.count();
-    const extrazero =
-      total < 10 ? "000" : total < 100 ? "00" : total < 100 ? "0" : "";
-    product.productCode = `PROD${extrazero}${total + 1}`;
-  });
   return products;
 };

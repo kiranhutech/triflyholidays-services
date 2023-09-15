@@ -41,9 +41,10 @@ function updateBankAccount(req, res) {
         try {
             const { id } = req.params;
             const [count, rows] = yield bankaccounts.update(req.body, {
-                where: { id },
+                where: { accountId: id },
                 returning: true,
             });
+            console.log({ count });
             if (count > 0)
                 res.send({
                     success: true,
@@ -57,6 +58,7 @@ function updateBankAccount(req, res) {
                 });
         }
         catch (error) {
+            console.log(error);
             res.status(500).json({
                 success: false,
                 message: "Internal Server Error",

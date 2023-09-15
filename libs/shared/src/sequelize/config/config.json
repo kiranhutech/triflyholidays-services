@@ -4,6 +4,7 @@
     "password": "postgres",
     "database": "mybiz",
     "host": "localhost",
+    "port": 5432,
     "dialect": "postgres",
     "logging": false,
     "pool": {
@@ -18,11 +19,22 @@
     }
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "postgres",
+    "password": "postgres",
+    "database": "mybiz",
+    "host": "localhost",
+    "dialect": "postgres",
+    "logging": false,
+    "pool": {
+      "max": 3,
+      "evict": 30000,
+      "idle": 30000,
+      "acquire": 60000
+    },
+    "define": {
+      "timestamps": true,
+      "freezeTableName": false
+    }
   },
   "production": {
     "username": "root",

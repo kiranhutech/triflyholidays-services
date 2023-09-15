@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("wings", {
+    await queryInterface.createTable("settlements", {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -10,41 +10,32 @@ module.exports = {
           "uuid_in((md5((random())::text))::cstring)"
         ),
       },
-      accountId: {
+      customerId: {
         type: Sequelize.UUID,
       },
-      wingSide: {
+      settlementPeriod: {
+        type: Sequelize.DATE,
+      },
+      amountSettled: {
+        type: Sequelize.DOUBLE,
+      },
+      wingsAdded: {
+        type: Sequelize.JSONB,
+      },
+      totalAddedWings: {
+        type: Sequelize.DOUBLE,
+      },
+      totalAddedLeftWings: {
+        type: Sequelize.DOUBLE,
+      },
+      totalAddedRightWings: {
+        type: Sequelize.DOUBLE,
+      },
+      systemStatus: {
         type: Sequelize.STRING,
       },
-      leftWingId: {
-        type: Sequelize.UUID,
-      },
-      rightWingId: {
-        type: Sequelize.UUID,
-      },
-      rightWingCount: {
-        type: Sequelize.DOUBLE,
-      },
-      leftWingCount: {
-        type: Sequelize.DOUBLE,
-      },
-      isFreezedWing: {
-        type: Sequelize.BOOLEAN,
-      },
-      isVerified: {
-        type: Sequelize.BOOLEAN,
-      },
-      verifiedBy: {
-        type: Sequelize.UUID,
-      },
-      verifiedAt: {
-        type: Sequelize.TIME,
-      },
-      lifeTimeEarning: {
-        type: Sequelize.DOUBLE,
-      },
-      dayEarning: {
-        type: Sequelize.DOUBLE,
+      bankStatus: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -57,6 +48,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("wings");
+    await queryInterface.dropTable("settlements");
   },
 };

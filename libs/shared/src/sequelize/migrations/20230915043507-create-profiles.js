@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("accounts", {
+    await queryInterface.createTable("profiles", {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -10,53 +10,50 @@ module.exports = {
           "uuid_in((md5((random())::text))::cstring)"
         ),
       },
-      productId: {
+      customerId: {
         type: Sequelize.UUID,
       },
-      createdBy: {
-        type: Sequelize.UUID,
+      firstName: {
+        type: Sequelize.STRING,
       },
-      fullName: {
+      middleName: {
+        type: Sequelize.STRING,
+      },
+      lastName: {
+        type: Sequelize.STRING,
+      },
+      dob: {
+        type: Sequelize.DATE,
+      },
+      mobile: {
         type: Sequelize.STRING,
       },
       email: {
         type: Sequelize.STRING,
       },
-      mobile: {
+      address: {
         type: Sequelize.STRING,
       },
-      countryCode: {
+      pan: {
         type: Sequelize.STRING,
       },
-      customerId: {
+      aadhar: {
         type: Sequelize.STRING,
       },
-      password: {
+      nomineeName: {
         type: Sequelize.STRING,
       },
-      isActive: {
-        type: Sequelize.BOOLEAN,
+      nomineeAge: {
+        type: Sequelize.DOUBLE,
       },
-      emailVerified: {
-        type: Sequelize.BOOLEAN,
-      },
-      phoneVerified: {
-        type: Sequelize.BOOLEAN,
-      },
-      accountType: {
+      relatinshipWithNominee: {
         type: Sequelize.STRING,
       },
-      lastLoggedIn: {
-        type: Sequelize.TIME,
-      },
-      uttr: {
+      sponsorId: {
         type: Sequelize.STRING,
       },
-      isArchived: {
-        type: Sequelize.TIME,
-      },
-      isEarnedToday: {
-        type: Sequelize.BOOLEAN,
+      applineId: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -69,6 +66,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("accounts");
+    await queryInterface.dropTable("profiles");
   },
 };

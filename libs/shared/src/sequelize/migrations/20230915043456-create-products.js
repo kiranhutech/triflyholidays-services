@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("bankaccounts", {
+    await queryInterface.createTable("products", {
       id: {
         type: Sequelize.UUID,
         primaryKey: true,
@@ -10,23 +10,20 @@ module.exports = {
           "uuid_in((md5((random())::text))::cstring)"
         ),
       },
-      accountId: {
-        type: Sequelize.UUID,
-      },
-      accNo: {
+      productCode: {
         type: Sequelize.STRING,
       },
-      ifsc: {
+      productName: {
         type: Sequelize.STRING,
       },
-      micr: {
-        type: Sequelize.STRING,
+      pointsPerChild: {
+        type: Sequelize.DOUBLE,
       },
-      accountHolderName: {
-        type: Sequelize.STRING,
+      isActive: {
+        type: Sequelize.BOOLEAN,
       },
-      branch: {
-        type: Sequelize.STRING,
+      isArchived: {
+        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +36,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("bankaccounts");
+    await queryInterface.dropTable("products");
   },
 };

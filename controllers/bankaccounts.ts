@@ -26,7 +26,7 @@ export async function updateBankAccount(req: any, res: any) {
   try {
     const { id } = req.params;
     const [count, rows] = await bankaccounts.update(req.body, {
-      where: { id },
+      where: { accountId: id },
       returning: true,
     });
     if (count > 0)
@@ -41,6 +41,8 @@ export async function updateBankAccount(req: any, res: any) {
         message: "failed to update bank details!, Try again",
       });
   } catch (error: any) {
+    console.log(error);
+
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
