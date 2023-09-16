@@ -2,8 +2,7 @@ import {
   getCustomerEraningsUtil,
   getEarningsByIdUtil,
   getMyEarningsUtil,
-} from "utility/earnings";
-import { updateProfileByIdUtil } from "../utility/profiles";
+} from "../utility/earnings";
 
 // get customer by id
 export async function getMyEarnings(req: any, res: any) {

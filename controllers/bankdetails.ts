@@ -2,7 +2,7 @@ import {
   getAllBankDetailsUtil,
   getMyBankDetailsUtil,
   updateMyBankDetailsUtil,
-} from "utility/bankdetails";
+} from "../utility/bankdetails";
 
 // signup
 export async function getMyBankAccount(req: any, res: any) {

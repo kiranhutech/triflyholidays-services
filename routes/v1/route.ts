@@ -1,5 +1,6 @@
 import { Router } from "express";
 import auth from "./auth";
+import product from "./products";
 import customer from "./customers";
 import profile from "./profiles";
 import bankDetails from "./bankaccounts";
@@ -10,7 +11,7 @@ import adminProfiles from "./admin_profiles";
 import adminBankDetails from "./admin_bankaccounts";
 import adminEarnings from "./admin_earnings";
 import adminSettlements from "./admin_settlements";
-import product from "./products";
+import adminProduct from "./admin_products";
 import {
   adminAuthMiddleware,
   customerAuthMiddleware,
@@ -20,6 +21,7 @@ const router = Router();
 
 // Public APIs
 router.use("/auth", auth);
+router.use("/product", product);
 
 // Secure Customer APIs
 router.use(customerAuthMiddleware);
@@ -31,7 +33,7 @@ router.use("/customer/settlements", settlements);
 
 // Secure Admin APIs
 router.use(adminAuthMiddleware);
-router.use("/admin/product", product);
+router.use("/admin/product", adminProduct);
 router.use("/admin/customer", adminCustomer);
 router.use("/admin/customer/profile", adminProfiles);
 router.use("/admin/customer/bankdetails", adminBankDetails);

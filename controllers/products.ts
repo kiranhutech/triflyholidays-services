@@ -4,7 +4,7 @@ import {
   getAllProductsUtil,
   getProductByIdUtil,
   updateProductByIdUtil,
-} from "utility/products";
+} from "../utility/products";
 
 // create product
 export async function createProduct(req: any, res: any) {

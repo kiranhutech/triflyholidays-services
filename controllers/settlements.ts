@@ -2,7 +2,7 @@ import {
   getMySettlementsUtil,
   getSettlementsByIdUtil,
   getCustomerSettlementsUtil,
-} from "utility/settlements";
+} from "../utility/settlements";
 
 // get customer by id
 export async function getMySettlements(req: any, res: any) {
