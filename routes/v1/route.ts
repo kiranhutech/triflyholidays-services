@@ -9,6 +9,7 @@ import adminCustomer from "./admin_customers";
 import adminProfiles from "./admin_profiles";
 import adminBankDetails from "./admin_bankaccounts";
 import adminEarnings from "./admin_earnings";
+import adminSettlements from "./admin_settlements";
 import product from "./products";
 import {
   adminAuthMiddleware,
@@ -35,6 +36,6 @@ router.use("/admin/customer", adminCustomer);
 router.use("/admin/customer/profile", adminProfiles);
 router.use("/admin/customer/bankdetails", adminBankDetails);
 router.use("/admin/customer/earning", adminEarnings);
-router.use("/admin/customer/settlements", settlements);
+router.use("/admin/customer/settlements", adminSettlements);
 
 export default router;

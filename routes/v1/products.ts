@@ -1,27 +1,11 @@
 import { Router } from "express";
-import {
-  createProduct,
-  getProductById,
-  getAllProduct,
-  updateProduct,
-  deleteProduct,
-} from "../../controllers/products";
-import { customerAuthMiddleware } from "../../utility/middleware";
+import { getProductById, getAllProduct } from "../../controllers/products";
 const router = Router();
 
-// create products
-router.post("/", createProduct);
-
-// get all products
+// get products by id
 router.get("/:id", getProductById);
 
-// get products
+// get all products
 router.get("/", getAllProduct);
-
-// update products
-router.put("/:id", updateProduct);
-
-// delete products
-router.delete("/:id", deleteProduct);
 
 export default router;

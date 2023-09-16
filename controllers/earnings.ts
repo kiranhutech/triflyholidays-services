@@ -3,12 +3,12 @@ import {
   getEarningsByIdUtil,
   getMyEarningsUtil,
 } from "utility/earnings";
-import { getProfileByIdUtil, updateProfileByIdUtil } from "../utility/profiles";
+import { updateProfileByIdUtil } from "../utility/profiles";
 
 // get customer by id
 export async function getMyEarnings(req: any, res: any) {
   try {
-    const { customerId } = req?.locals;
+    const { accountId: customerId } = req?.locals;
     const { page = 1, limit = 10, search = null } = req?.query || {};
     const offset = (+page - 1) * +limit;
     const earning = await getMyEarningsUtil(customerId, offset, limit, search);

@@ -3,10 +3,8 @@ import { getMyProfile, updateMyProfile } from "../../controllers/profile";
 
 const router = Router();
 
-// get account
+// profiles APIs
 router.get("/", getMyProfile);
-
-// update account-
 router.put("/", updateMyProfile);
 
 export default router;

@@ -7,7 +7,7 @@ import {
 // signup
 export async function getMyBankAccount(req: any, res: any) {
   try {
-    const { customerId } = req?.locals;
+    const { accountId: customerId } = req?.locals;
     const bankDetails = await getMyBankDetailsUtil(customerId);
     if (!bankDetails?.errors) res.send(bankDetails);
     else res.status(500).json(bankDetails);
@@ -21,7 +21,7 @@ export async function getMyBankAccount(req: any, res: any) {
 // update account
 export async function updateMyBankDetails(req: any, res: any) {
   try {
-    const { customerId } = req?.locals;
+    const { accountId: customerId } = req?.locals;
     const bankDetails = await updateMyBankDetailsUtil(customerId, req.body);
     if (!bankDetails?.errors) res.send(bankDetails);
     else res.status(500).json(bankDetails);

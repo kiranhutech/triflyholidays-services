@@ -1,12 +1,14 @@
 import { Router } from "express";
-import { getMyProfile, updateMyProfile } from "../../controllers/profile";
+import {
+  getCustomersProfile,
+  getCustomersProfileById,
+  updateCustomersProfileById,
+} from "../../controllers/profile";
 
 const router = Router();
 
-// get account
-router.get("/:id", getMyProfile);
-
-// update account
-router.put("/:id", updateMyProfile);
+router.get("/", getCustomersProfile);
+router.get("/:id", getCustomersProfileById);
+router.put("/:id", updateCustomersProfileById);
 
 export default router;
