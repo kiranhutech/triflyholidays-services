@@ -21,10 +21,10 @@ const router = Router();
 
 // Public APIs
 router.use("/auth", auth);
-router.use("/product", product);
 
 // Secure Customer APIs
 router.use(customerAuthMiddleware);
+router.use("/product", product);
 router.use("/customer", customer);
 router.use("/customer/profile", profile);
 router.use("/customer/bankdetails", bankDetails);
