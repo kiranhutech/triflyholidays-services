@@ -1,7 +1,8 @@
-import { signInAccount } from "../../controllers/auth";
+import { signInAccount, testMiddleware } from "../../controllers/auth";
 import { Router } from "express";
+import { customerAuthMiddleware } from "../../utility/middleware";
 const router = Router();
 
-// sigin
+//auth APIs
 router.post("/signin", signInAccount);
 export default router;

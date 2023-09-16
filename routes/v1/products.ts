@@ -1,19 +1,19 @@
 import { Router } from "express";
 import {
   createProduct,
-  deleteProduct,
+  getProductById,
   getAllProduct,
-  getProduct,
   updateProduct,
+  deleteProduct,
 } from "../../controllers/products";
 import { customerAuthMiddleware } from "../../utility/middleware";
 const router = Router();
 
 // create products
-router.post("/", customerAuthMiddleware, createProduct);
+router.post("/", createProduct);
 
 // get all products
-router.get("/:id", getProduct);
+router.get("/:id", getProductById);
 
 // get products
 router.get("/", getAllProduct);

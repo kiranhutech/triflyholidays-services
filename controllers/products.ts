@@ -1,35 +1,20 @@
-const models = require("../libs/shared/src/sequelize/models");
-const { products } = models;
+import {
+  addNewProductUtil,
+  deleteProductByIdUtil,
+  getAllProductsUtil,
+  getProductByIdUtil,
+  updateProductByIdUtil,
+} from "utility/products";
 
 // create product
 export async function createProduct(req: any, res: any) {
   try {
-    const { productName } = req?.body || {};
-    if (productName) {
-      const existing = await products.findOne({
-        where: { productName, isArchived: null },
-      });
-      if (existing) {
-        res
-          .status(400)
-          .json({ success: false, message: "Product Name should be unique" });
-      } else {
-        const registered = await products.create({ productName });
-        res.send({
-          success: true,
-          message: "Product created successfuly",
-          product: registered,
-        });
-      }
-    } else {
-      res
-        .status(400)
-        .json({ success: false, message: "Product name is missing" });
-    }
+    const productRegistered: any = await addNewProductUtil(req.body);
+    if (!productRegistered?.errors) res.send(productRegistered);
+    else res.status(500).json(productRegistered);
   } catch (error: any) {
+    console.log(error);
     res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
       errors: [error?.message?.replaceAll("'")],
     });
   }
@@ -38,50 +23,28 @@ export async function createProduct(req: any, res: any) {
 // get all product
 export async function getAllProduct(req: any, res: any) {
   try {
-    const { offset = 0, limit = 20 } = req?.query || {};
-    const { count: totalProducts, rows } = await products.findAndCountAll({
-      where: { isArchived: null },
-      order: [["createdAt", "DESC"]],
-      offset,
-      limit,
-    });
-    res.send({
-      success: true,
-      message: "Products found",
-      totalProducts,
-      products: rows,
-    });
+    const { page = 1, limit = 10, search = null } = req?.query || {};
+    const offset = (+page - 1) * +limit;
+    const products = await getAllProductsUtil(offset, limit, search);
+    if (!products?.errors) res.send(products);
+    else res.status(500).json(products);
   } catch (error: any) {
+    console.log(error);
     res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
       errors: [error?.message?.replaceAll("'")],
     });
   }
 }
 
 // get product by id
-export async function getProduct(req: any, res: any) {
+export async function getProductById(req: any, res: any) {
   try {
-    const { id } = req.params;
-    const prod = await products.findByPk(id);
-    if (prod) {
-      res.send({
-        success: true,
-        message: "Product found",
-        product: prod,
-      });
-    } else {
-      res.send({
-        success: true,
-        message: "Product not found",
-        products: prod,
-      });
-    }
+    const products = await getProductByIdUtil(req?.params?.id);
+    if (!products?.errors) res.send(products);
+    else res.status(500).json(products);
   } catch (error: any) {
+    console.log(error);
     res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
       errors: [error?.message?.replaceAll("'")],
     });
   }
@@ -90,25 +53,12 @@ export async function getProduct(req: any, res: any) {
 // update product
 export async function updateProduct(req: any, res: any) {
   try {
-    const { productName } = req?.body || {};
-    const { id } = req.params;
-    const [count, rows] = await products.update(
-      { productName },
-      { where: { id }, returning: true }
-    );
-    if (count > 0) {
-      res.send({
-        success: true,
-        message: "Product updated successfuly",
-        product: rows?.[0] || {},
-      });
-    } else {
-      res.status(400).json({ success: false, message: "Product not found" });
-    }
+    const products = await updateProductByIdUtil(req?.params?.id, req?.body);
+    if (!products?.errors) res.send(products);
+    else res.status(500).json(products);
   } catch (error: any) {
+    console.log(error);
     res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
       errors: [error?.message?.replaceAll("'")],
     });
   }
@@ -117,24 +67,12 @@ export async function updateProduct(req: any, res: any) {
 // delete product
 export async function deleteProduct(req: any, res: any) {
   try {
-    const { id } = req.params;
-    const [count, rows] = await products.update(
-      { isArchived: new Date().toISOString() },
-      { where: { id }, returning: true }
-    );
-    if (count > 0) {
-      res.send({
-        success: true,
-        message: "Product updated successfuly",
-        product: rows?.[0] || {},
-      });
-    } else {
-      res.status(400).json({ success: false, message: "Product not found" });
-    }
+    const products = await deleteProductByIdUtil(req?.params?.id);
+    if (!products?.errors) res.send(products);
+    else res.status(500).json(products);
   } catch (error: any) {
+    console.log(error);
     res.status(500).json({
-      success: false,
-      message: "Internal Server Error",
       errors: [error?.message?.replaceAll("'")],
     });
   }

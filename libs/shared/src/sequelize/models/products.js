@@ -29,5 +29,13 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "products",
     }
   );
+
+  products.beforeCreate(async (product, options) => {
+    const total = await products.count();
+    const extrazero =
+      total < 10 ? "000" : total < 100 ? "00" : total < 100 ? "0" : "";
+    product.productCode = `PROD${extrazero}${total + 1}`;
+  });
+
   return products;
 };

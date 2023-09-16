@@ -19,19 +19,58 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
       },
       customerId: DataTypes.UUID,
-      totalCount: DataTypes.DOUBLE,
-      totalLeftCount: DataTypes.DOUBLE,
-      totalRightCount: DataTypes.DOUBLE,
-      dayTotalCount: DataTypes.DOUBLE,
-      dayLeftCount: DataTypes.DOUBLE,
-      dayRightCount: DataTypes.DOUBLE,
-      totalEarn: DataTypes.DOUBLE,
-      totalLeftEarn: DataTypes.DOUBLE,
-      totalRightEarn: DataTypes.DOUBLE,
-      dayTotalEarn: DataTypes.DOUBLE,
-      dayLeftEarn: DataTypes.DOUBLE,
-      dayRightEarn: DataTypes.DOUBLE,
-      earnedFrom: DataTypes.JSONB,
+      totalCount: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      totalLeftCount: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      totalRightCount: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      dayTotalCount: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      dayLeftCount: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      dayRightCount: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      totalEarn: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      totalLeftEarn: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      totalRightEarn: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      dayTotalEarn: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      dayLeftEarn: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      dayRightEarn: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      earnedFrom: {
+        type: DataTypes.JSONB,
+        defaultValue: [],
+      },
     },
     {
       sequelize,

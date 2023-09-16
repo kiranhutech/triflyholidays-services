@@ -43,6 +43,9 @@ module.exports = {
       verifiedOn: {
         type: Sequelize.DATE,
       },
+      accountType: {
+        type: Sequelize.STRING,
+      },
       accountStatus: {
         type: Sequelize.STRING,
       },

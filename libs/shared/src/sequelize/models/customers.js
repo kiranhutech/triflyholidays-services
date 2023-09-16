@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const bcrypt = require("bcrypt");
 module.exports = (sequelize, DataTypes) => {
   class customers extends Model {
     /**
@@ -29,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       verificationStatus: DataTypes.STRING,
       verifiedBy: DataTypes.UUID,
       verifiedOn: DataTypes.DATE,
+      accountType: DataTypes.STRING,
       accountStatus: DataTypes.STRING,
       effectiveParents: DataTypes.JSONB,
       lastOTP: DataTypes.STRING,
@@ -41,14 +43,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  customers.beforeCreate(async (account, options) => {
+  customers.beforeCreate(async (customer, options) => {
     const total = await customers.count();
     const yrmonth = generateUniqueCode();
     const extrazero =
       total < 100 ? "000" : total < 1000 ? "00" : total < 10000 ? "0" : "";
-    account.customerId = `MYB${yrmonth}${extrazero}${total + 1}`;
-    const hashedPassword = await bcrypt.hash(account.password, 10);
-    account.password = hashedPassword;
+    customer.customerId = `MYB${yrmonth}${extrazero}${total + 1}`;
+    const hashedPassword = await bcrypt.hash(customer.password, 10);
+    customer.password = hashedPassword;
   });
   return customers;
 };
