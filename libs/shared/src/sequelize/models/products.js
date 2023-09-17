@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
       productCode: DataTypes.STRING,
       productName: DataTypes.STRING,
       pointsPerChild: DataTypes.DOUBLE,
-      isActive: DataTypes.BOOLEAN,
+      isActive: { type: DataTypes.BOOLEAN, defaultValue: DataTypes.UUIDV4 },
       isArchived: DataTypes.DATE,
     },
     {
@@ -32,8 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 
   products.beforeCreate(async (product, options) => {
     const total = await products.count();
-    const extrazero =
-      total < 10 ? "000" : total < 100 ? "00" : total < 100 ? "0" : "";
+    const extrazero = total.toString().padStart(3, "0");
     product.productCode = `PROD${extrazero}${total + 1}`;
   });
 
