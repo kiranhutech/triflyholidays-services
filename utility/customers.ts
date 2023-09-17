@@ -1,6 +1,7 @@
 import { UUID } from "crypto";
 import { customerDefaultFields } from "./CONSTANTS";
 import { Op } from "sequelize";
+import { resolve } from "path";
 
 const models = require("../libs/shared/src/sequelize/models");
 const { customers, profiles, earnings } = models;
@@ -25,22 +26,40 @@ export async function addNewCustomerUtil(customerInfo: any) {
         const { id, customerId, accountType } = customerRegistered?.get();
         profileAdded.customerId = id;
         await profileAdded.save();
-        createNewCustomerEarningsUtil({ customerId: id });
-        return {
-          customers: [
-            {
-              ...profileAdded?.get(),
-              customerId,
-              accountType,
-              id,
-            },
-          ],
-        };
+        const earningsCreated = await createNewCustomerEarningsUtil({
+          customerId: id,
+        });
+        if (earningsCreated) {
+          const ancestorsAdded = await addAncestorsToCustomer(
+            id,
+            parentId,
+            wingSide
+          );
+          if (ancestorsAdded) await calculateAncestorsEarnings(ancestorsAdded);
+          return {
+            customers: [
+              {
+                ...profileAdded?.get(),
+                customerId,
+                accountType,
+                id,
+              },
+            ],
+          };
+        } else {
+          return {
+            errors: [
+              `customer profile created id:` + profileAdded?.id,
+              `customer created id:` + id,
+              `failed to create customer earnings`,
+            ],
+          };
+        }
       } else {
         return {
           errors: [
-            `failed to register customer account`,
-            `Customer profile added successfuly, Profile Id: ${profileAdded?.id}`,
+            `failed to register customer`,
+            `customer profile created id: ${profileAdded?.id}`,
           ],
         };
       }
@@ -197,40 +216,71 @@ function generateStrongPassword() {
   return password;
 }
 
-export async function addChildToItsAncestors(
+export async function addAncestorsToCustomer(
   childId: UUID,
-  allParentIds: UUID[],
+  parentId: UUID,
   wingSide: "LEFT" | "RIGHT"
+) {
+  try {
+    const parent = await customers.findByPk(parentId);
+    const parentsAncestors = parent?.get("effectiveParents");
+    const child = await customers.findByPk(childId);
+    child.effectiveParents = [...parentsAncestors, { id: parentId, wingSide }];
+    await child.save();
+    return [...parentsAncestors, { id: parentId, wingSide }];
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+
+export async function calculateAncestorsEarnings(
+  ancestors: { id: UUID; wingSide: "LEFT" | "RIGHT" }[]
 ) {
   const finishedParentEarnings: UUID[] = [];
   try {
+    const allParents: any = ancestors?.reduce(
+      (result, curr) => ({ ...result, [curr?.id]: curr?.wingSide }),
+      {}
+    );
     //here calculation is done on archived customers also
     const allParentsEarnings = await earnings.findAll({
-      where: { customerId: { [Op.in]: allParentIds } },
+      where: { customerId: { [Op.in]: Object.keys(allParents) } },
     });
 
-    allParentsEarnings?.forEach(async (customer: any) => {
-      ++customer.totalCount;
-      ++customer.dayTotalCount;
-      customer.totalEarn = customer.totalEarn + 10;
-      customer.dayTotalEarn = customer.dayTotalEarn + 10;
-      if (wingSide === "LEFT") {
-        ++customer.totalLeftCount;
-        ++customer.dayLeftCount;
-        customer.totalLeftEarn = customer.totalLeftEarn + 10;
-        customer.dayLeftEarn = customer.dayLeftEarn + 10;
-      } else {
-        ++customer.totalRightCount;
-        ++customer.dayRightCount;
-        customer.totalRightEarn = customer.totalRightEarn + 10;
-        customer.dayRightEarn = customer.dayRightEarn + 10;
-      }
-      await customer.save();
-      finishedParentEarnings.push(customer?.id);
-    });
+    const calculatedTo = await Promise.allSettled(
+      allParentsEarnings.map(async (customerEarnings: any) => {
+        customerEarnings.earnedFrom = [
+          ...customerEarnings.earnedFrom,
+          {
+            id: customerEarnings?.customerId,
+            wingSide: allParents[customerEarnings?.customerId],
+          },
+        ];
+        ++customerEarnings.totalCount;
+        ++customerEarnings.dayTotalCount;
+        customerEarnings.totalEarn = customerEarnings.totalEarn + 10;
+        customerEarnings.dayTotalEarn = customerEarnings.dayTotalEarn + 10;
+        if (allParents[customerEarnings?.customerId] === "LEFT") {
+          ++customerEarnings.totalLeftCount;
+          ++customerEarnings.dayLeftCount;
+          customerEarnings.totalLeftEarn = customerEarnings.totalLeftEarn + 10;
+          customerEarnings.dayLeftEarn = customerEarnings.dayLeftEarn + 10;
+        } else if (allParents[customerEarnings?.customerId] === "RIGHT") {
+          ++customerEarnings.totalRightCount;
+          ++customerEarnings.dayRightCount;
+          customerEarnings.totalRightEarn =
+            customerEarnings.totalRightEarn + 10;
+          customerEarnings.dayRightEarn = customerEarnings.dayRightEarn + 10;
+        }
+        const earn = await customerEarnings.save();
+        if (earnings)
+          finishedParentEarnings?.push(customerEarnings?.customerId);
+        return earn;
+      })
+    );
     console.log({ finishedParentEarnings });
-
-    return allParentsEarnings;
+    return calculatedTo;
   } catch (error) {
     console.log(error);
     console.log({ finishedParentEarnings });
