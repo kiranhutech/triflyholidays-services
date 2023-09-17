@@ -12,6 +12,7 @@ import adminBankDetails from "./admin_bankaccounts";
 import adminEarnings from "./admin_earnings";
 import adminSettlements from "./admin_settlements";
 import adminProduct from "./admin_products";
+import { addChildToItsAncestors } from "../../utility/customers";
 const router = Router();
 
 // Public APIs
@@ -32,5 +33,15 @@ router.use("/admin/customer/bankdetails", adminBankDetails);
 router.use("/admin/customer/earning", adminEarnings);
 router.use("/admin/customer/settlement", adminSettlements);
 router.use("/admin/customer", adminCustomer);
+
+//Test APIs
+router.get("/test/calc", async (req, res) => {
+  const result = await addChildToItsAncestors(
+    "9db46c92-8ac9-45cd-bdd4-775823399abc",
+    ["9db46c92-8ac9-45cd-bdd4-775823399afb"],
+    "LEFT"
+  );
+  res.send(result);
+});
 
 export default router;

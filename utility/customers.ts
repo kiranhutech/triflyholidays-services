@@ -1,5 +1,6 @@
 import { UUID } from "crypto";
 import { customerDefaultFields } from "./CONSTANTS";
+import { Op } from "sequelize";
 
 const models = require("../libs/shared/src/sequelize/models");
 const { customers, profiles, earnings } = models;
@@ -196,6 +197,42 @@ function generateStrongPassword() {
   return password;
 }
 
-function addChildToItsAncestors(childId: UUID, allParents = []) {
-  const;
+export async function addChildToItsAncestors(
+  childId: UUID,
+  allParentIds: UUID[],
+  wingSide: "LEFT" | "RIGHT"
+) {
+  const finishedParentEarnings: UUID[] = [];
+  try {
+    //here calculation is done on archived customers also
+    const allParentsEarnings = await earnings.findAll({
+      where: { customerId: { [Op.in]: allParentIds } },
+    });
+
+    allParentsEarnings?.forEach(async (customer: any) => {
+      ++customer.totalCount;
+      ++customer.dayTotalCount;
+      customer.totalEarn = customer.totalEarn + 10;
+      customer.dayTotalEarn = customer.dayTotalEarn + 10;
+      if (wingSide === "LEFT") {
+        ++customer.totalLeftCount;
+        ++customer.dayLeftCount;
+        customer.totalLeftEarn = customer.totalLeftEarn + 10;
+        customer.dayLeftEarn = customer.dayLeftEarn + 10;
+      } else {
+        ++customer.totalRightCount;
+        ++customer.dayRightCount;
+        customer.totalRightEarn = customer.totalRightEarn + 10;
+        customer.dayRightEarn = customer.dayRightEarn + 10;
+      }
+      await customer.save();
+      finishedParentEarnings.push(customer?.id);
+    });
+    console.log({ finishedParentEarnings });
+
+    return allParentsEarnings;
+  } catch (error) {
+    console.log(error);
+    console.log({ finishedParentEarnings });
+  }
 }
