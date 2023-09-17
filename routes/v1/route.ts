@@ -23,14 +23,14 @@ router.use("/customer", customer);
 router.use("/customer/profile", profile);
 router.use("/customer/bankdetails", bankDetails);
 router.use("/customer/earning", earnings);
-router.use("/customer/settlements", settlements);
+router.use("/customer/settlement", settlements);
 
 // Secure Admin APIs
 router.use("/admin/product", adminProduct);
-router.use("/admin/customer", adminCustomer);
 router.use("/admin/customer/profile", adminProfiles);
 router.use("/admin/customer/bankdetails", adminBankDetails);
 router.use("/admin/customer/earning", adminEarnings);
-router.use("/admin/customer/settlements", adminSettlements);
+router.use("/admin/customer/settlement", adminSettlements);
+router.use("/admin/customer", adminCustomer);
 
 export default router;

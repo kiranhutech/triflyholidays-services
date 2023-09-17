@@ -44,7 +44,7 @@ export async function getBankDetailsByIdUtil(customerId: UUID) {
     });
     return bankdetail
       ? { bankdetails: [bankdetail?.get()] }
-      : { errors: ["Something went wrong!, Try again"] };
+      : { errors: ["No bank details found"] };
   } catch (error: any) {
     return {
       errors: [error?.message?.replaceAll("'")],
@@ -83,7 +83,7 @@ export async function updateBankDetailsByIdUtil(id: UUID, bankInfo: any) {
     });
     return count > 0
       ? { customers: profile }
-      : { errors: ["Account not found"] };
+      : { errors: ["Bank details not found"] };
   } catch (error: any) {
     return {
       errors: [error?.message?.replaceAll("'")],

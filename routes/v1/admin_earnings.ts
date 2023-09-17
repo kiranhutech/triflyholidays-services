@@ -9,9 +9,9 @@ import { adminAuthMiddleware } from "../../utility/middleware";
 
 router.use(adminAuthMiddleware);
 //get all earnings
-router.put("/", getCustomerEranings);
+router.get("/", getCustomerEranings);
 
 // get earnings by id
-router.put("/:id", getEarningsById);
+router.get("/:id", getEarningsById);
 
 export default router;

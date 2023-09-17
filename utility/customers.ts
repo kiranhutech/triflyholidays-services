@@ -1,4 +1,5 @@
 import { UUID } from "crypto";
+import { customerDefaultFields } from "./CONSTANTS";
 
 const models = require("../libs/shared/src/sequelize/models");
 const { customers, profiles, earnings } = models;
@@ -8,8 +9,15 @@ export async function addNewCustomerUtil(customerInfo: any) {
     const profileAdded = await createNewCustomerProfileUtil(customerInfo);
     if (profileAdded) {
       const password = generateStrongPassword();
+      const { productId, parentId, leftChildId, rightChildId, wingSide } =
+        customerInfo;
       const customerRegistered = await createNewCustomerAccountUtil({
         password,
+        productId,
+        parentId,
+        leftChildId,
+        rightChildId,
+        wingSide,
         accountType: "customer",
       });
       if (customerRegistered) {
@@ -98,7 +106,7 @@ export async function getAllCustomerUtil(
   try {
     const { count: totalCustomers, rows } = await customers.findAndCountAll({
       where: { isArchived: null },
-      attributes: { exclude: ["password"] },
+      attributes: customerDefaultFields,
       order: [["createdAt", "DESC"]],
       offset,
       limit,
@@ -120,11 +128,11 @@ export async function getCustomerByIdUtil(id: UUID) {
   try {
     const customer = await customers.findOne({
       where: { id, isArchived: null },
-      attributes: { exclude: ["password"] },
+      attributes: customerDefaultFields,
     });
     return customer
       ? { customers: [customer?.get()] }
-      : { errors: ["Account not found"] };
+      : { errors: ["Customer not found"] };
   } catch (error: any) {
     return {
       errors: [error?.message?.replaceAll("'")],
@@ -137,12 +145,11 @@ export async function updateCustomerByIdUtil(id: UUID, customerInfo: any) {
   try {
     const [count, customer] = await customers.update(customerInfo, {
       where: { id },
-      returning: true,
-      attributes: { exclude: ["password"] },
+      returning: customerDefaultFields,
     });
     return count > 0
       ? { customers: customer }
-      : { errors: ["Account not found"] };
+      : { errors: ["Customer not found"] };
   } catch (error: any) {
     return {
       errors: [error?.message?.replaceAll("'")],
@@ -155,11 +162,14 @@ export async function deleteCustomerByIdUtil(id: UUID) {
   try {
     const [count, customer] = await customers.update(
       { isArchived: new Date().toISOString() },
-      { where: { id }, returning: true, attributes: { exclude: ["password"] } }
+      {
+        where: { id, isArchived: null },
+        returning: customerDefaultFields,
+      }
     );
     return count > 0
       ? { customers: customer }
-      : { errors: ["Account not found"] };
+      : { errors: ["Customer not found"] };
   } catch (error: any) {
     return {
       errors: [error?.message?.replaceAll("'")],

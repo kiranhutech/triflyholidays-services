@@ -22,7 +22,6 @@ export function customerAuthMiddleware(req: any, res: any, next: any) {
 
 export function adminAuthMiddleware(req: any, res: any, next: any) {
   try {
-    console.log({ validToken: "iiiiiiii" });
     const { authorization } = req.headers;
     const token = authorization?.split(" ")[1];
     if (token) {

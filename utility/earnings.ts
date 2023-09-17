@@ -30,7 +30,7 @@ export async function getEarningsByIdUtil(id: UUID) {
     const earning: any = await earnings.findByPk(id);
     return earning
       ? { earnings: [earning?.get()] }
-      : { errors: ["Something went wrong!, Try again"] };
+      : { errors: ["No earnigs found"] };
   } catch (error: any) {
     return {
       errors: [error?.message?.replaceAll("'")],

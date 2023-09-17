@@ -48,7 +48,7 @@ export async function getProductByIdUtil(id: UUID) {
     });
     return product
       ? { customers: [product?.get()] }
-      : { errors: ["Account not found"] };
+      : { errors: ["Product not found"] };
   } catch (error: any) {
     return {
       errors: [error?.message?.replaceAll("'")],

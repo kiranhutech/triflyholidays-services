@@ -24,13 +24,13 @@ export async function getMySettlementsUtil(
   }
 }
 
-// get customer earnings by id
+// get customer settlement by id
 export async function getSettlementsByIdUtil(id: UUID) {
   try {
     const settlement: any = await settlements.findByPk(id);
     return settlement
-      ? { earnings: [settlement?.get()] }
-      : { errors: ["Something went wrong!, Try again"] };
+      ? { settlements: [settlement?.get()] }
+      : { errors: ["No settlement found"] };
   } catch (error: any) {
     return {
       errors: [error?.message?.replaceAll("'")],
@@ -38,7 +38,7 @@ export async function getSettlementsByIdUtil(id: UUID) {
   }
 }
 
-// get all customer earnings
+// get all customer settlements
 export async function getCustomerSettlementsUtil(
   offset = 0,
   limit = 10,

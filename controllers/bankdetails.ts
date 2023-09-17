@@ -1,5 +1,6 @@
 import {
   getAllBankDetailsUtil,
+  getBankDetailsByIdUtil,
   getMyBankDetailsUtil,
   updateMyBankDetailsUtil,
 } from "../utility/bankdetails";
@@ -47,6 +48,17 @@ export async function getAllBankDetails(req: any, res: any) {
   }
 }
 
+export async function getBankDetailsById(req: any, res: any) {
+  try {
+    const bankDetails = await getBankDetailsByIdUtil(req?.paramsa?.id);
+    if (!bankDetails?.errors) res.send(bankDetails);
+    else res.status(500).json(bankDetails);
+  } catch (error: any) {
+    res.status(500).json({
+      errors: [error?.message?.replaceAll("'")],
+    });
+  }
+}
 export async function updateBankDetailsById(req: any, res: any) {
   try {
     const bankDetails = await updateMyBankDetailsUtil(
