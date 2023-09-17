@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       productId: DataTypes.UUID,
       customerId: DataTypes.STRING,
       password: DataTypes.STRING,
+      wingSide: DataTypes.STRING,
       currentAchievement: DataTypes.STRING,
       upcomingAchievement: DataTypes.STRING,
       parentId: DataTypes.UUID,

@@ -19,6 +19,9 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
       },
+      wingSide: {
+        type: Sequelize.STRING,
+      },
       currentAchievement: {
         type: Sequelize.STRING,
       },

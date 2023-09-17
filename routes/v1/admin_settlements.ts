@@ -1,11 +1,12 @@
 import { Router } from "express";
+const router = Router();
 import {
   getCustomerSettlements,
   getSettlementsById,
 } from "../../controllers/settlements";
+import { adminAuthMiddleware } from "../../utility/middleware";
 
-const router = Router();
-
+router.use(adminAuthMiddleware);
 router.get("/", getCustomerSettlements);
 router.get("/:id", getSettlementsById);
 

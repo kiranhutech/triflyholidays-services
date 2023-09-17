@@ -1,4 +1,5 @@
 import { Router } from "express";
+const router = Router();
 import {
   createProduct,
   getProductById,
@@ -6,8 +7,9 @@ import {
   updateProduct,
   deleteProduct,
 } from "../../controllers/products";
-const router = Router();
+import { adminAuthMiddleware } from "../../utility/middleware";
 
+router.use(adminAuthMiddleware);
 // create products
 router.post("/", createProduct);
 

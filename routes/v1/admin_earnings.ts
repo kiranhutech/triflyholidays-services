@@ -1,12 +1,13 @@
 import { Router } from "express";
+const router = Router();
 import {
   getCustomerEranings,
   getEarningsById,
   getMyEarnings,
 } from "../../controllers/earnings";
+import { adminAuthMiddleware } from "../../utility/middleware";
 
-const router = Router();
-
+router.use(adminAuthMiddleware);
 //get all earnings
 router.put("/", getCustomerEranings);
 

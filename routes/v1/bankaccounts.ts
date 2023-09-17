@@ -1,11 +1,13 @@
 import { Router } from "express";
+const router = Router();
 import {
   getMyBankAccount,
   updateMyBankDetails,
 } from "../../controllers/bankdetails";
 
-const router = Router();
+import { customerAuthMiddleware } from "../../utility/middleware";
 
+router.use(customerAuthMiddleware);
 // get or create bank account
 router.get("/", getMyBankAccount);
 

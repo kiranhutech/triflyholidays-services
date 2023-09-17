@@ -8,9 +8,9 @@ import {
 
 const models = require("../libs/shared/src/sequelize/models");
 
-export async function getMyProfile(req: any, res: any) {
+export async function getMyProfile(req: any, res: any): Promise<any> {
   try {
-    const { accountId: customerId } = req?.locals;
+    const { accountId: customerId } = req.locals;
     const profiles = await getMyProfileUtil(customerId);
     if (!profiles?.errors) res.send(profiles);
     else res.status(500).json(profiles);

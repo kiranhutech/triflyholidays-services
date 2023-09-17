@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { getMyProfile, updateMyProfile } from "../../controllers/profile";
-
 const router = Router();
+import { getMyProfile, updateMyProfile } from "../../controllers/profile";
+import { customerAuthMiddleware } from "../../utility/middleware";
+
+router.use(customerAuthMiddleware);
 
 // profiles APIs
 router.get("/", getMyProfile);

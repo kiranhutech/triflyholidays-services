@@ -12,18 +12,12 @@ import adminBankDetails from "./admin_bankaccounts";
 import adminEarnings from "./admin_earnings";
 import adminSettlements from "./admin_settlements";
 import adminProduct from "./admin_products";
-import {
-  adminAuthMiddleware,
-  customerAuthMiddleware,
-} from "../../utility/middleware";
-
 const router = Router();
 
 // Public APIs
 router.use("/auth", auth);
 
 // Secure Customer APIs
-router.use(customerAuthMiddleware);
 router.use("/product", product);
 router.use("/customer", customer);
 router.use("/customer/profile", profile);
@@ -32,7 +26,6 @@ router.use("/customer/earning", earnings);
 router.use("/customer/settlements", settlements);
 
 // Secure Admin APIs
-router.use(adminAuthMiddleware);
 router.use("/admin/product", adminProduct);
 router.use("/admin/customer", adminCustomer);
 router.use("/admin/customer/profile", adminProfiles);
