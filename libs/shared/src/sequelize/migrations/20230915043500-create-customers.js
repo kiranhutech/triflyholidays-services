@@ -54,6 +54,7 @@ module.exports = {
       },
       effectiveParents: {
         type: Sequelize.JSONB,
+        defaultValue: [],
       },
       lastOTP: {
         type: Sequelize.STRING,

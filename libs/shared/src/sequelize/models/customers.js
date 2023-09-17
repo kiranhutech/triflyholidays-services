@@ -33,7 +33,10 @@ module.exports = (sequelize, DataTypes) => {
       verifiedOn: DataTypes.DATE,
       accountType: DataTypes.STRING,
       accountStatus: DataTypes.STRING,
-      effectiveParents: DataTypes.JSONB,
+      effectiveParents: {
+        type: DataTypes.JSONB,
+        defaultValue: [],
+      },
       lastOTP: DataTypes.STRING,
       optExiresOn: DataTypes.DATE,
       isArchived: DataTypes.DATE,

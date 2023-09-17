@@ -8,7 +8,7 @@ export async function addNewCustomerUtil(customerInfo: any) {
   try {
     const profileAdded = await createNewCustomerProfileUtil(customerInfo);
     if (profileAdded) {
-      const password = generateStrongPassword();
+      const password = "123456"; //generateStrongPassword();
       const { productId, parentId, leftChildId, rightChildId, wingSide } =
         customerInfo;
       const customerRegistered = await createNewCustomerAccountUtil({
@@ -194,4 +194,8 @@ function generateStrongPassword() {
   }
 
   return password;
+}
+
+function addChildToItsAncestors(childId: UUID, allParents = []) {
+  const;
 }

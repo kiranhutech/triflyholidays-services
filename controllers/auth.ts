@@ -23,7 +23,7 @@ export async function signInAccount(req: any, res: any) {
   try {
     const { customerId, password } = req.body;
     const acc = await customers.findOne({
-      where: { customerId },
+      where: { customerId, isArchived: null },
     });
     // Check if the user exists
     if (!acc) {
