@@ -1,8 +1,6 @@
 import { UUID } from "crypto";
 import { customerDefaultFields } from "./CONSTANTS";
 import { Op } from "sequelize";
-import { resolve } from "path";
-
 const models = require("../libs/shared/src/sequelize/models");
 const { customers, profiles, earnings } = models;
 
