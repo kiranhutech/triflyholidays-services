@@ -6,12 +6,25 @@ import {
   updateCustomerByIdUtil,
 } from "../utility/customers";
 
-// signup
 export async function addNewCustomer(req: any, res: any) {
   try {
     const customerRegistered: any = await addNewCustomerUtil(req.body);
     if (!customerRegistered?.errors) res.send(customerRegistered);
     else res.status(500).json(customerRegistered);
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({
+      errors: [error?.message?.replaceAll("'")],
+    });
+  }
+}
+
+export async function getMyAccountDetails(req: any, res: any) {
+  try {
+    const { accountId: id } = req?.locals;
+    const customers = await getCustomerByIdUtil(id);
+    if (!customers?.errors) res.send(customers);
+    else res.status(500).json(customers);
   } catch (error: any) {
     console.log(error);
     res.status(500).json({

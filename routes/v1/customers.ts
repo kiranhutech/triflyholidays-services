@@ -3,11 +3,16 @@ const router = Router();
 import {
   addNewCustomer,
   getCustomerById,
+  getMyAccountDetails,
   updateCustomerById,
 } from "../../controllers/customers";
 import { customerAuthMiddleware } from "../../utility/middleware";
 
 router.use(customerAuthMiddleware);
+
+// get account
+router.get("/", getMyAccountDetails);
+
 // create account
 router.post("/", addNewCustomer);
 

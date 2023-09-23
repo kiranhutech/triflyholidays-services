@@ -146,6 +146,35 @@ export async function getCustomerByIdUtil(id: UUID) {
   try {
     const customer = await customers.findOne({
       where: { id, isArchived: null },
+      include: [
+        {
+          model: customers,
+          as: "children",
+          attributes: ["id", "customerId", "productId", "wingSide"],
+          include: [
+            {
+              model: earnings,
+              as: "earnings",
+              attributes: ["totalCount", "totalEarn"],
+            },
+            {
+              model: profiles,
+              as: "profile",
+              attributes: ["firstName"],
+            },
+          ],
+        },
+        {
+          model: earnings,
+          as: "earnings",
+          attributes: ["totalCount", "totalEarn"],
+        },
+        {
+          model: profiles,
+          as: "profile",
+          attributes: ["firstName"],
+        },
+      ],
       attributes: customerDefaultFields,
     });
     return customer

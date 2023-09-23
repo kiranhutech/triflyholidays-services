@@ -46,7 +46,7 @@ module.exports = {
       nomineeAge: {
         type: Sequelize.DOUBLE,
       },
-      relatinshipWithNominee: {
+      relationshipWithNominee: {
         type: Sequelize.STRING,
       },
       sponsorId: {

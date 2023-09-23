@@ -18,12 +18,12 @@ const router = Router();
 router.use("/auth", auth);
 
 // Secure Customer APIs
-router.use("/product", product);
-router.use("/customer", customer);
+router.use("/customer/product", product);
 router.use("/customer/profile", profile);
 router.use("/customer/bankdetails", bankDetails);
 router.use("/customer/earning", earnings);
 router.use("/customer/settlement", settlements);
+router.use("/customer", customer);
 
 // Secure Admin APIs
 router.use("/admin/product", adminProduct);

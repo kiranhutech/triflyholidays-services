@@ -12,6 +12,7 @@ export async function getMyProfileUtil(customerId: UUID) {
       ? { profiles: [profile?.get()] }
       : { errors: ["Account not found"] };
   } catch (error: any) {
+    console.log(error);
     return {
       errors: [error?.message?.replaceAll("'")],
     };
@@ -25,7 +26,7 @@ export async function updateMyProfileUtil(customerId: UUID, profileInfo: any) {
       returning: true,
     });
     return count > 0
-      ? { customers: profile }
+      ? { profiles: profile }
       : { errors: ["Account not found"] };
   } catch (error: any) {
     return {

@@ -9,7 +9,32 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      // Define the self-referential relationship
+      customers.hasMany(models.customers, {
+        as: "children", // alias for the relationship
+        foreignKey: "parentId", // foreign key in the Customer table
+      });
+
+      // Optional: Define the inverse relationship for convenience
+      customers.belongsTo(models.customers, {
+        as: "parent", // alias for the relationship
+        foreignKey: "parentId", // foreign key in the Customer table
+      });
+
+      customers.hasOne(models.profiles, {
+        as: "profile",
+        foreignKey: "customerId",
+      });
+
+      customers.hasOne(models.earnings, {
+        as: "earnings",
+        foreignKey: "customerId",
+      });
+
+      customers.hasMany(models.settlements, {
+        as: "settlements",
+        foreignKey: "customerId",
+      });
     }
   }
   customers.init(

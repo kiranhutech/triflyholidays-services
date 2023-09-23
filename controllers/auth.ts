@@ -45,13 +45,19 @@ export async function signInAccount(req: any, res: any) {
           "1d",
           "2d"
         );
-        res.cookie("accessToken", accessToken, {
-          expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-        });
-        res.cookie("refreshToken", refreshToken, {
-          expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-        });
+        // res.cookie("accessToken", accessToken, {
+        //   httpOnly: true,
+        //   sameSite: "none",
+        //   expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        // });
+        // res.cookie("refreshToken", refreshToken, {
+        //   httpOnly: true,
+        //   sameSite: "none",
+        //   expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+        // });
         return res.send({
+          accessToken,
+          refreshToken,
           customer: {
             accountId,
             customerId,
