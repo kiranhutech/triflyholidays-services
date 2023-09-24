@@ -51,6 +51,7 @@ module.exports = {
       },
       accountStatus: {
         type: Sequelize.STRING,
+        defaultValue: "PENDING",
       },
       effectiveParents: {
         type: Sequelize.JSONB,

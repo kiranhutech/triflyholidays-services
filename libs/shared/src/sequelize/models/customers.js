@@ -35,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
         as: "settlements",
         foreignKey: "customerId",
       });
+
+      customers.hasOne(models.bankdetails, {
+        as: "bankdetails",
+        foreignKey: "customerId",
+      });
     }
   }
   customers.init(
@@ -57,7 +62,10 @@ module.exports = (sequelize, DataTypes) => {
       verifiedBy: DataTypes.UUID,
       verifiedOn: DataTypes.DATE,
       accountType: DataTypes.STRING,
-      accountStatus: DataTypes.STRING,
+      accountStatus: {
+        type: DataTypes.STRING,
+        defaultValue: "PENDING",
+      },
       effectiveParents: {
         type: DataTypes.JSONB,
         defaultValue: [],

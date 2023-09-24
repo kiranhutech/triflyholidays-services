@@ -36,6 +36,7 @@ module.exports = {
       },
       kycVerificationStatus: {
         type: Sequelize.STRING,
+        defaultValue: "PENDING",
       },
       verifiedBy: {
         type: Sequelize.UUID,

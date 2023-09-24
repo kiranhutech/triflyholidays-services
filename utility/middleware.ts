@@ -6,7 +6,11 @@ export function customerAuthMiddleware(req: any, res: any, next: any) {
     const token = authorization?.split(" ")[1];
     if (token) {
       const validToken: any = verifyToken(token);
-      if (validToken && validToken?.accountType === "customer") {
+      if (
+        validToken &&
+        (validToken?.accountType === "customer" ||
+          validToken?.accountType === "superadmin")
+      ) {
         req["locals"] = { ...validToken };
         next();
       } else {
@@ -34,7 +38,6 @@ export function adminAuthMiddleware(req: any, res: any, next: any) {
         res.send(401);
       }
     } else {
-      console.log({ validToken: "iiiiiiii" });
       res.send(401);
     }
   } catch (error) {

@@ -2,7 +2,7 @@ import { UUID } from "crypto";
 import { customerDefaultFields } from "./CONSTANTS";
 import { Op } from "sequelize";
 const models = require("../libs/shared/src/sequelize/models");
-const { customers, profiles, earnings } = models;
+const { customers, profiles, earnings, bankdetails } = models;
 
 export async function addNewCustomerUtil(customerInfo: any) {
   try {
@@ -122,10 +122,38 @@ export async function getAllCustomerUtil(
   search = null
 ) {
   try {
+    console.log({ search });
+    let where: any = { isArchived: null };
+    if (search) {
+      where = {
+        ...where,
+        [Op.or]: [
+          { customerId: { [Op.iLike]: `%${search}%` } },
+          { "$profile.firstName$": { [Op.iLike]: `%${search}%` } },
+          { "$profile.middleName$": { [Op.iLike]: `%${search}%` } },
+          { "$profile.lastName$": { [Op.iLike]: `%${search}%` } },
+          { "$profile.email$": { [Op.iLike]: `%${search}%` } },
+          { "$profile.mobile$": { [Op.iLike]: `%${search}%` } },
+        ],
+      };
+    }
+
     const { count: totalCustomers, rows } = await customers.findAndCountAll({
-      where: { isArchived: null },
+      where,
       attributes: customerDefaultFields,
-      order: [["createdAt", "DESC"]],
+      include: [
+        {
+          model: bankdetails,
+          as: "bankdetails",
+          // attributes: ["totalCount", "totalEarn"],
+        },
+        {
+          model: profiles,
+          as: "profile",
+          // attributes: ["firstName"],
+        },
+      ],
+      order: [["createdAt", "ASC"]],
       offset,
       limit,
     });

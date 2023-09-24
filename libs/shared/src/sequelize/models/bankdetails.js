@@ -26,7 +26,10 @@ module.exports = (sequelize, DataTypes) => {
       branch: DataTypes.STRING,
       city: DataTypes.STRING,
       state: DataTypes.STRING,
-      kycVerificationStatus: DataTypes.STRING,
+      kycVerificationStatus: {
+        type: DataTypes.STRING,
+        defaultValue: "PENDING",
+      },
       verifiedBy: DataTypes.UUID,
       verifiedOn: DataTypes.DATE,
     },
