@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       customers.hasMany(models.settlements, {
-        as: "settlements",
+        as: "settlement",
         foreignKey: "customerId",
       });
 

@@ -41,9 +41,19 @@ export async function getSettlementsById(req: any, res: any) {
 
 export async function getCustomerSettlements(req: any, res: any) {
   try {
-    const { page = 1, limit = 10, search = null } = req?.query || {};
+    const {
+      page = 1,
+      limit = 10,
+      search = null,
+      d = "weekly",
+    } = req?.query || {};
     const offset = (+page - 1) * +limit;
-    const settlements = await getCustomerSettlementsUtil(offset, limit, search);
+    const settlements = await getCustomerSettlementsUtil(
+      offset,
+      limit,
+      search,
+      d
+    );
     if (!settlements?.errors) res.send(settlements);
     else res.status(500).json(settlements);
   } catch (error: any) {
